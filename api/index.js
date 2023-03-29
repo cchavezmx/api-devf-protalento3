@@ -1,10 +1,12 @@
 const express = require('express')
 const cors = require('cors')
+const morgan = require('morgan')
 
 const api = express();
 const PORT = process.env.PORT || 3000;
 
 api.use(cors())
+api.use(morgan('dev'))
 // que url no solicito el servicio => /
 // VALIDAR WHITELIST SOLO LOS DOMINIOS AUTORIZADOS PARA CONECTARSE
 // PARSER EXPRESS
