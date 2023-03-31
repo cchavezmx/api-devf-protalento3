@@ -8,5 +8,11 @@ module.exports = {
       email: Joi.string().email().required(),
       password: Joi.string().required()
     })
+  }),
+  login: celebrate({
+    [Segments.BODY]: Joi.object().keys({      
+      email: Joi.string().email().required(),
+      password: Joi.string().required()
+    })
   })
 }

@@ -1,6 +1,8 @@
-const NotesServiceses = require('./NotesServiceses')
+const NotesService = require('./NotesService')
+const UserService = require('./UserServiceses')
 
 
 module.exports = {
-  NotesServiceses
+  NotesService,
+  UserService
 }
