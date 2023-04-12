@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 
 // El esquema le dice a Mongoose cómo se almacenarán los objetos de nota en la base de datos.
 const notaSchema = new mongoose.Schema({
+  status: {
+    type: Boolean,
+    default: true,
+  },
   titulo: {
     type: String,
     required: true

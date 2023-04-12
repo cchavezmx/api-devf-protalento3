@@ -1,5 +1,5 @@
 const { UserService } = require('../services')
-const { comparePasword } = require('../utils')
+const { comparePasword, createToken } = require('../utils')
 
 module.exports = {
   create: async (req, res) => {
@@ -23,8 +23,7 @@ module.exports = {
       // 1. - comprobar que el usario exista
               // traernos su contraseña de la base de datos has (encriptada)
 
-      const isUser = await UserService.getUserByEmail(req.body.email)      
-      console.log("🚀 ~ file: UserControllers.js:27 ~ login: ~ isUser:", isUser)
+      const isUser = await UserService.getUserByEmail(req.body.email)
 
       if (!isUser) {
         throw new Error('Error en las credenciales')
@@ -37,10 +36,19 @@ module.exports = {
         throw new Error('Error en las credenciales')
       }
 
-      // 3. - Generar un token      
+      // 3. - Generar un token // ID
+      const token = createToken(isUser)
       // 4. - Mandar el token en el servicio
-      
-      return res.status(200).json({ message: isUser })
+
+      if (!token) {
+        throw new Error('Error en el token')
+      }
+      const userWhitoutPassword = {
+        email: isUser.email,
+        nombre: isUser.name,
+        token        
+      }
+      return res.status(200).json({ user: userWhitoutPassword })
 
     } catch(error) {
       console.log("🚀 ~ file: UserControllers.js:42 ~ login: ~ error:", error)

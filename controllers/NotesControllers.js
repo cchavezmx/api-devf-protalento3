@@ -30,5 +30,29 @@ module.exports = {
     } catch (error) {
       return res.status(400).json({ error })
     }
+  },
+  findOne: async (req, res) => {    
+    const { id } = req.params
+    try {
+      
+      const nota = await NotesService.findOne(id)      
+      return res.status(200).json({ message: nota })
+
+    } catch (error) {
+      return res.status(400).json({ error: error.message })
+    }
+
+
+  },
+  findOneByIdAndUpdate: async (req, res) => {    
+    const { id } = req.params
+    try {
+
+      await NotesService.findOneByIdAndUpdate(id, req.body) 
+      return res.status(200).json({ message: 'Succes update'})
+
+    } catch (error) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 }
