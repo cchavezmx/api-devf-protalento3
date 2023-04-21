@@ -8,21 +8,45 @@ module.exports = {
     // Boolean
     return match
   }, 
-  createToken: (user) => {
-    // cabezar + payload + clave secreta
+  createToken: (usuario) => {
+
     const payload = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      exp: Math.floor(Date.now() / 1000) * (60 * 60) // 1hr //timstamp
+      id: usuario._id,
+      email: usuario.email,
+      name: usuario.name,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hora
     }
 
     try {
-      const token = jwt.sign(payload, process.env.JWT_SECRET)
+      const token = jwt.sign(payload, process.env.SECRET_KEY)
       return token
-    } catch(error) {
-      return error.message
+    } catch (error) {
+      return error
     }
-
+  },
+  verifyToken: (req, res, next) => {
+    try {
+      const { authorization } = req.headers
+      
+      if (!authorization) {
+        throw new Error('No hay token')
+      }
+      
+      console.log(authorization)
+      const [type, token] = authorization.split(' ')      
+      
+      jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) {
+          throw new Error('Token no valido')
+        }
+        
+        req.decoded = decoded
+        next()
+      })      
+      
+    } catch (error) {
+      console.log("🚀 ~ file: index.js:48 ~ error:", error)
+      res.status(401).json({ message: 'Auth error', error: error.message })
+    }
   }
 }

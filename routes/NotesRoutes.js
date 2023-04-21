@@ -11,7 +11,10 @@ router.get('/nota/:id',NotesValidators.findOne, NotesControllers.findOne)
 
 router.use(verifyToken) // uso de el middleware 
 
-// add a note // Validadores, funciones
+// add a note // aut, Validadores, funciones
+
+
+router.use(verifyToken)
 router.post('/notes', NotesValidators.create, NotesControllers.create)
 
 // updateByIdAndUpdate // updateMany
@@ -22,7 +25,5 @@ router.patch('/nota/patch/:id', NotesValidators.findOne, NotesControllers.findOn
 // findByIdAndDelete // borrado logico
 // Es que el estaus no exist en todas las notas // agregar esa propieda a todos los documentos existentes
 //
-
-
 
 module.exports = router

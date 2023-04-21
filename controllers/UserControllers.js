@@ -4,7 +4,7 @@ const { comparePasword, createToken } = require('../utils')
 module.exports = {
   create: async (req, res) => {
     try {
-
+      
       const newUser = await UserService.create(req.body)
 
       if(!newUser) {
@@ -36,19 +36,20 @@ module.exports = {
         throw new Error('Error en las credenciales')
       }
 
-      // 3. - Generar un token // ID
+      // 3. - Generar un token 
       const token = createToken(isUser)
       // 4. - Mandar el token en el servicio
-
       if (!token) {
-        throw new Error('Error en el token')
+        return res.status(400).json({ message: 'Error al generar el token' })
       }
-      const userWhitoutPassword = {
+      
+      return res.status(200).json({ message: {
+        token,
+        id: isUser._id,
+        name: isUser.name,
         email: isUser.email,
-        nombre: isUser.name,
-        token        
-      }
-      return res.status(200).json({ user: userWhitoutPassword })
+        token
+      } })
 
     } catch(error) {
       console.log("🚀 ~ file: UserControllers.js:42 ~ login: ~ error:", error)

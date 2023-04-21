@@ -6,7 +6,6 @@ const { UserControllers } = require('../controllers')
 
 // add a note
 router.post('/create/newuser', UserValidator.create, UserControllers.create)
-
 router.post('/user/login', UserValidator.login, UserControllers.login)
 
 
