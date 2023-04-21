@@ -8,5 +8,10 @@ module.exports = {
       fecha: Joi.string().required(),
       user: Joi.string().required()
     })
+  }),
+  findOne: celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.string().required()
+    })
   })
 }

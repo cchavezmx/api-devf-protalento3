@@ -4,7 +4,7 @@ const { comparePasword, createToken } = require('../utils')
 module.exports = {
   create: async (req, res) => {
     try {
-
+      
       const newUser = await UserService.create(req.body)
 
       if(!newUser) {
@@ -24,7 +24,6 @@ module.exports = {
               // traernos su contraseña de la base de datos has (encriptada)
 
       const isUser = await UserService.getUserByEmail(req.body.email)
-      console.log("🚀 ~ file: UserControllers.js:27 ~ login: ~ isUser:", isUser)
 
       if (!isUser) {
         throw new Error('Error en las credenciales')
